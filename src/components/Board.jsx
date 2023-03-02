@@ -9,15 +9,17 @@ import React, { useState } from "react";
 
 const Board = () => {
   const [turn, setTurn] = useState(true);
-  const [matriz, setMatriz] = useState(
-    Array(8)
-      .fill(0)
-      .map(() => Array(8).fill(0))
-  );
-  matriz[3][3] = 2;
-  matriz[4][3] = 1;
-  matriz[4][4] = 2;
-  matriz[3][4] = 1;
+  const [matriz, setMatriz] = useState([
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 2, 1, 0, 0, 0],
+    [0, 0, 0, 1, 2, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+  ]);
+ 
 
   const checkTile = (x, y) => {
     if (matriz[x][y] !== 0) {
@@ -26,16 +28,55 @@ const Board = () => {
     const value = turn ? 2 : 1;
     const oppositeColor = turn ? 1 : 2;
 
-if ( ((x > 0 && y > 0 && x <= 7 && y <= 7) && matriz[x - 1][y] === oppositeColor )|| matriz[x + 1][y] === oppositeColor || matriz[x][y - 1] === oppositeColor || matriz[x][y + 1] === oppositeColor || matriz[x - 1][y - 1] === oppositeColor || matriz[x - 1][y + 1] === oppositeColor || matriz[x + 1][y - 1] === oppositeColor || matriz[x + 1][y + 1] === oppositeColor) {
-    setMatriz((matriz) => {
-      const newMatriz = [...matriz];
-      newMatriz[x][y] = value;
-      return newMatriz;
-    });
-} else{ return false }
+    if (
+      (x > 0 &&
+        y > 0 &&
+        x <= 7 &&
+        y <= 7 &&
+        matriz[x - 1][y] === oppositeColor) ||
+      matriz[x + 1][y] === oppositeColor ||
+      matriz[x][y - 1] === oppositeColor ||
+      matriz[x][y + 1] === oppositeColor ||
+      matriz[x - 1][y - 1] === oppositeColor ||
+      matriz[x - 1][y + 1] === oppositeColor ||
+      matriz[x + 1][y - 1] === oppositeColor ||
+      matriz[x + 1][y + 1] === oppositeColor
+    ) {
+      setMatriz((matriz) => {
+        const newMatriz = [...matriz];
+        newMatriz[x][y] = value;
+
+        /* actualizar la fila */
+
+        for (let i = x - 1; i >= 0; i--) {
+          if (matriz[x][y] === oppositeColor) {
+            newMatriz[i][y] = value;
+          }
+        }
+        for (let i = x + 1; i < 8; i++) {
+          if (matriz[i][y] === oppositeColor) {
+            newMatriz[i][y] = value;
+          }
+        }
+
+        /* actualizar la columna */
+        for (let i = y - 1; i >= 0; i--) {
+          if (matriz[x][i] === oppositeColor) {
+            newMatriz[x][i] = value;
+          }
+        }
+        for (let i = y - 1; i < 8; i++) {
+          if (matriz[x][i] === oppositeColor) {
+            newMatriz[x][i] = value;
+          }
+        }
+        return newMatriz;
+      });
+    } else {
+      return false;
+    }
 
     setTurn(!turn);
-
   };
 
   const Tile = ({ row, col, value, onClick }) => (
