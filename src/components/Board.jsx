@@ -19,7 +19,6 @@ const Board = () => {
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
   ]);
- 
 
   const checkTile = (x, y) => {
     if (matriz[x][y] !== 0) {
@@ -33,7 +32,7 @@ const Board = () => {
         y > 0 &&
         x <= 7 &&
         y <= 7 &&
-        matriz[x - 1][y] === oppositeColor) ||
+      matriz[x - 1][y] === oppositeColor) ||
       matriz[x + 1][y] === oppositeColor ||
       matriz[x][y - 1] === oppositeColor ||
       matriz[x][y + 1] === oppositeColor ||
@@ -49,7 +48,7 @@ const Board = () => {
         /* actualizar la fila */
 
         for (let i = x - 1; i >= 0; i--) {
-          if (matriz[x][y] === oppositeColor) {
+          if (matriz[i][y] === oppositeColor) {
             newMatriz[i][y] = value;
           }
         }
@@ -68,6 +67,31 @@ const Board = () => {
         for (let i = y - 1; i < 8; i++) {
           if (matriz[x][i] === oppositeColor) {
             newMatriz[x][i] = value;
+          }
+        }
+
+        /* actualizar diagonales superiores */
+        for (let i = x - 1, j = y - 1; i >= 0 && j >= 0; i--, j--) {
+          if (matriz[i][j] === oppositeColor) {
+            newMatriz[i][j] = value;
+          }
+        }
+        for (let i = x - 1, j =y + 1; i >= 0 && j < 8; i--, j++) {
+            if (matriz[i][j] === oppositeColor) {
+              newMatriz[i][j] = value;
+            }
+          }
+        
+        /* actualiza diagonales inferiores */
+        for (let i = x + 1, j = y + 1; i < 8 && j < 8; i++, j++) {
+            if (matriz[i][j] === oppositeColor) {
+              newMatriz[i][j] = value;
+            }
+          }
+        
+        for (let i = x + 1, j = y - 1; i < 8 && j>= 0; i++, j--) {
+          if (matriz[i][j] === oppositeColor) {
+            newMatriz[i][j] = value;
           }
         }
         return newMatriz;
