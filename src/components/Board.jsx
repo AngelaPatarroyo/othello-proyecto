@@ -28,21 +28,21 @@ const Board = () => {
     const oppositeColor = turn ? 1 : 2;
 
     if (
-      (x > 0 &&
-        y > 0 &&
+        x >= 0 &&
+        y >= 0 &&
         x <= 7 &&
         y <= 7 &&
-      matriz[x - 1][y] === oppositeColor) ||
+      (matriz[x - 1][y] === oppositeColor ||
       matriz[x + 1][y] === oppositeColor ||
       matriz[x][y - 1] === oppositeColor ||
       matriz[x][y + 1] === oppositeColor ||
       matriz[x - 1][y - 1] === oppositeColor ||
       matriz[x - 1][y + 1] === oppositeColor ||
       matriz[x + 1][y - 1] === oppositeColor ||
-      matriz[x + 1][y + 1] === oppositeColor
+      matriz[x + 1][y + 1] === oppositeColor)
     ) {
-      setMatriz((matriz) => {
-        const newMatriz = [...matriz];
+      setMatriz((prevMatriz) => {
+        const newMatriz = [...prevMatriz];
         newMatriz[x][y] = value;
 
         /* actualizar la fila */
@@ -64,7 +64,7 @@ const Board = () => {
             newMatriz[x][i] = value;
           }
         }
-        for (let i = y - 1; i < 8; i++) {
+        for (let i = y + 1; i < 8; i++) {
           if (matriz[x][i] === oppositeColor) {
             newMatriz[x][i] = value;
           }
