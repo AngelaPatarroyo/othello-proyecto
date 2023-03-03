@@ -26,21 +26,19 @@ const Board = () => {
     }
     const value = turn ? 2 : 1;
     const oppositeColor = turn ? 1 : 2;
+    const isInsideBounds = x >= 0 && x <= 7 && y >= 0 && y <= 7;
+    const hasOppositeColorAdjacent = [
+      [x - 1, y],
+      [x + 1, y],
+      [x, y - 1],
+      [x, y + 1],
+      [x - 1, y - 1],
+      [x - 1, y + 1],
+      [x + 1, y - 1],
+      [x + 1, y + 1],
+    ].some(([i, j]) => matriz[i]?.[j] === oppositeColor);
 
-    if (
-        x >= 0 &&
-        y >= 0 &&
-        x <= 7 &&
-        y <= 7 &&
-      (matriz[x - 1][y] === oppositeColor ||
-      matriz[x + 1][y] === oppositeColor ||
-      matriz[x][y - 1] === oppositeColor ||
-      matriz[x][y + 1] === oppositeColor ||
-      matriz[x - 1][y - 1] === oppositeColor ||
-      matriz[x - 1][y + 1] === oppositeColor ||
-      matriz[x + 1][y - 1] === oppositeColor ||
-      matriz[x + 1][y + 1] === oppositeColor)
-    ) {
+    if (isInsideBounds && hasOppositeColorAdjacent) {
       setMatriz((prevMatriz) => {
         const newMatriz = [...prevMatriz];
         newMatriz[x][y] = value;
@@ -76,20 +74,20 @@ const Board = () => {
             newMatriz[i][j] = value;
           }
         }
-        for (let i = x - 1, j =y + 1; i >= 0 && j < 8; i--, j++) {
-            if (matriz[i][j] === oppositeColor) {
-              newMatriz[i][j] = value;
-            }
+        for (let i = x - 1, j = y + 1; i >= 0 && j < 8; i--, j++) {
+          if (matriz[i][j] === oppositeColor) {
+            newMatriz[i][j] = value;
           }
-        
+        }
+
         /* actualiza diagonales inferiores */
         for (let i = x + 1, j = y + 1; i < 8 && j < 8; i++, j++) {
-            if (matriz[i][j] === oppositeColor) {
-              newMatriz[i][j] = value;
-            }
+          if (matriz[i][j] === oppositeColor) {
+            newMatriz[i][j] = value;
           }
-        
-        for (let i = x + 1, j = y - 1; i < 8 && j>= 0; i++, j--) {
+        }
+
+        for (let i = x + 1, j = y - 1; i < 8 && j >= 0; i++, j--) {
           if (matriz[i][j] === oppositeColor) {
             newMatriz[i][j] = value;
           }
