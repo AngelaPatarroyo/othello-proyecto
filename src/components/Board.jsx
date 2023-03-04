@@ -50,6 +50,7 @@ const Board = () => {
             newMatriz[i][y] = value;
           }
         }
+      
         for (let i = x + 1; i < 8; i++) {
           if (matriz[i][y] === oppositeColor) {
             newMatriz[i][y] = value;
