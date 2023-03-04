@@ -44,31 +44,20 @@ const Board = () => {
         newMatriz[x][y] = value;
 
         /* actualizar la fila */
-
-        for (let i = x - 1; i >= 0; i--) {
-          if (matriz[i][y] === oppositeColor) {
-            newMatriz[i][y] = value;
-          }
-        }
-      
-        for (let i = x + 1; i < 8; i++) {
-          if (matriz[i][y] === oppositeColor) {
+        // Actualiza valores en la misma columna
+        for (let i = 0; i < 8; i++) {
+          if (i !== x && matriz[i][y] === oppositeColor) {
             newMatriz[i][y] = value;
           }
         }
 
         /* actualizar la columna */
-        for (let i = y - 1; i >= 0; i--) {
-          if (matriz[x][i] === oppositeColor) {
+        // Actualiza valores en la misma fila
+        for (let i = 0; i < 8; i++) {
+          if (i !== y && matriz[x][i] === oppositeColor) {
             newMatriz[x][i] = value;
           }
         }
-        for (let i = y + 1; i < 8; i++) {
-          if (matriz[x][i] === oppositeColor) {
-            newMatriz[x][i] = value;
-          }
-        }
-
         /* actualizar diagonales superiores */
         for (let i = x - 1, j = y - 1; i >= 0 && j >= 0; i--, j--) {
           if (matriz[i][j] === oppositeColor) {
@@ -109,9 +98,8 @@ const Board = () => {
     >
       {value !== 0 && (
         <div
-          className={`${
-            value === 1 ? "bg-white" : "bg-black"
-          } h-16 w-16 rounded-full`}
+          className={`${value === 1 ? "bg-white" : "bg-black"
+            } h-16 w-16 rounded-full`}
         />
       )}
     </div>
