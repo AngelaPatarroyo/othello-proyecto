@@ -13,12 +13,13 @@ const Board = () => {
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 2, 1, 0, 0, 0],
     [0, 0, 0, 1, 2, 0, 0, 0],
+    [0, 0, 0, 2, 1, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
   ]);
+
 
   const checkTile = (x, y) => {
     if (matriz[x][y] !== 0) {
@@ -26,7 +27,6 @@ const Board = () => {
     }
     const value = turn ? 2 : 1;
     const oppositeColor = turn ? 1 : 2;
-    const isInsideBounds = x >= 0 && x <= 7 && y >= 0 && y <= 7;
     const hasOppositeColorAdjacent = [
       [x - 1, y],
       [x + 1, y],
@@ -38,14 +38,16 @@ const Board = () => {
       [x + 1, y + 1],
     ].some(([i, j]) => matriz[i]?.[j] === oppositeColor);
 
-    if (isInsideBounds && hasOppositeColorAdjacent) {
-      setMatriz((prevMatriz) => {
-        const newMatriz = [...prevMatriz];
+    
+
+    if (hasOppositeColorAdjacent) {
+      setMatriz((matriz) => {
+        const newMatriz = [...matriz];
         newMatriz[x][y] = value;
 
         /* actualizar la fila */
         // Actualiza valores en la misma columna
-        for (let i = 0; i < 8; i++) {
+        for (let i = 0; i < matriz.length; i++) {
           if (i !== x && matriz[i][y] === oppositeColor) {
             newMatriz[i][y] = value;
           }
@@ -53,7 +55,7 @@ const Board = () => {
 
         /* actualizar la columna */
         // Actualiza valores en la misma fila
-        for (let i = 0; i < 8; i++) {
+        for (let i = 0; i < matriz.length; i++) {
           if (i !== y && matriz[x][i] === oppositeColor) {
             newMatriz[x][i] = value;
           }
@@ -89,7 +91,9 @@ const Board = () => {
     }
 
     setTurn(!turn);
+
   };
+
 
   const Tile = ({ row, col, value, onClick }) => (
     <div
@@ -120,6 +124,7 @@ const Board = () => {
           ))}
         </div>
       ))}
+      
     </div>
   );
 };
