@@ -45,9 +45,6 @@ const Board = () => {
 
 
   const checkTile = (x, y) => {
-    if (matriz[x][y] !== 0) {
-      return false;
-    }
 
     const value = turn ? 2 : 1;
     const oppositeColor = turn ? 1 : 2;
@@ -68,12 +65,13 @@ const Board = () => {
 
       // check if tile is already occupied before setting its value
       if (newMatriz[x][y] === 0) {
-        newMatriz[x][y] = value;
-
         // Verifica si la ficha seleccionada está entre dos fichas del color opuesto
         let shouldFlip = false;
         for (let i = -1; i <= 1; i++) {
           for (let j = -1; j <= 1; j++) {
+            if (i === 0 && j === 0) {
+              continue; // saltar la ficha actual
+            }
             if (matriz[x + i]?.[y + j] === oppositeColor) {
               let row = x + i;
               let col = y + j;
@@ -82,6 +80,7 @@ const Board = () => {
                 col += j;
               }
               if (matriz[row]?.[col] === value) {
+                // se pueden voltear las fichas en esta dirección
                 for (let k = i, l = j; matriz[x + k]?.[y + l] === oppositeColor; k += i, l += j) {
                   newMatriz[x + k][y + l] = value;
                 }
@@ -92,11 +91,13 @@ const Board = () => {
         }
 
         if (shouldFlip) {
+          newMatriz[x][y] = value;
           setMatriz(newMatriz);
           setTurn(!turn);
           return true;
         }
       }
+      
     }
 
     return false;
@@ -156,6 +157,7 @@ const Board = () => {
       ))}
       <div className="mt-10 flex justify-center">Blanco tiene: {whiteCount} fichas en el tablero</div>
       <div className=" flex justify-center">Negro tiene: {blackCount} fichas en el tablero</div>
+      <div className=" flex justify-center">Es el truno de {turn === false ? 'Blanco' : 'Negro'}</div>
       <button onClick={resetGame} className="mt-10 bg-green-600 text-white rounded-lg py-2 px-4 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-opacity-50">
         Reiniciar
       </button>
