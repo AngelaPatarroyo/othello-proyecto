@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+/* eslint-disable no-undef */
+import React, { useState, useEffect } from "react";
+
 
 /* false = turno blanco
     true = turno negro */
@@ -19,6 +21,28 @@ const Board = () => {
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
   ]);
+  const [whiteCount, setWhiteCount] = useState(0);
+  const [blackCount, setBlackCount] = useState(0);
+
+  useEffect(() => {
+    const white = matriz.reduce(
+      (acc, row) => acc + row.filter((val) => val === 1).length,
+      0
+    );
+    const black = matriz.reduce(
+      (acc, row) => acc + row.filter((val) => val === 2).length,
+      0
+    );
+    setWhiteCount(white);
+    setBlackCount(black);
+
+    // verifica si algún color alcanzó 32
+    if (white >= 32 || black >= 32) {
+      // aquí se puede detener el juego de alguna manera
+      alert(`El Ganador es: ${white >=32 ? 'Blanco' : 'Negro'}`);
+    }
+  }, [matriz, whiteCount, blackCount]);
+
 
 
   const checkTile = (x, y) => {
@@ -38,7 +62,7 @@ const Board = () => {
       [x + 1, y + 1],
     ].some(([i, j]) => matriz[i]?.[j] === oppositeColor);
 
-    
+
 
     if (hasOppositeColorAdjacent) {
       setMatriz((matriz) => {
@@ -84,6 +108,7 @@ const Board = () => {
             newMatriz[i][j] = value;
           }
         }
+
         return newMatriz;
       });
     } else {
@@ -124,7 +149,8 @@ const Board = () => {
           ))}
         </div>
       ))}
-      
+      <div className="mt-10 flex justify-center">Blanco tiene: {whiteCount} fichas en el tablero</div>
+      <div className=" flex justify-center">Negro tiene: {blackCount} fichas en el tablero</div>
     </div>
   );
 };
