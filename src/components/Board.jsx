@@ -48,10 +48,10 @@ const Board = () => {
     if (matriz[x][y] !== 0) {
       return false;
     }
-  
+
     const value = turn ? 2 : 1;
     const oppositeColor = turn ? 1 : 2;
-  
+
     // Verifica si hay una ficha del color opuesto en una posición adyacente
     const hasOppositeColorAdjacent = [
       [x - 1, y],
@@ -63,11 +63,11 @@ const Board = () => {
       [x + 1, y - 1],
       [x + 1, y + 1],
     ].some(([i, j]) => matriz[i]?.[j] === oppositeColor);
-  
+
     if (hasOppositeColorAdjacent) {
       const newMatriz = matriz.map(row => [...row]); // crear una copia de la matriz
       newMatriz[x][y] = value;
-  
+
       // Verifica si la ficha seleccionada está entre dos fichas del color opuesto
       let shouldFlip = false;
       for (let i = -1; i <= 1; i++) {
@@ -88,17 +88,32 @@ const Board = () => {
           }
         }
       }
-  
+
       if (shouldFlip) {
         setMatriz(newMatriz);
         setTurn(!turn);
         return true;
       }
     }
-  
+
     return false;
   };
-  
+
+  const resetGame = () => {
+    setMatriz([
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 1, 2, 0, 0, 0],
+      [0, 0, 0, 2, 1, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0],
+    ]);
+    setTurn(true);
+    setWhiteCount(2);
+    setBlackCount(2);
+  };
   
 
   const Tile = ({ row, col, value, onClick }) => (
@@ -132,8 +147,10 @@ const Board = () => {
       ))}
       <div className="mt-10 flex justify-center">Blanco tiene: {whiteCount} fichas en el tablero</div>
       <div className=" flex justify-center">Negro tiene: {blackCount} fichas en el tablero</div>
+      <button onClick={resetGame} className="mt-10 bg-green-600 text-white rounded-lg py-2 px-4 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-opacity-50">
+        Reiniciar
+      </button>
     </div>
   );
-};
-
+}
 export default Board;
