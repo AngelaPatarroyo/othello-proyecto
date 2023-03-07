@@ -69,21 +69,15 @@ const Board = () => {
         const newMatriz = [...matriz];
         newMatriz[x][y] = value;
 
-        /* actualizar la fila */
-        // Actualiza valores en la misma columna
         for (let i = 0; i < matriz.length; i++) {
           if (matriz[i][y] === oppositeColor) {
             newMatriz[i][y] = value;
           }
-        }
-
-        /* actualizar la columna */
-        // Actualiza valores en la misma fila
-        for (let i = 0; i < matriz.length; i++) {
           if (matriz[x][i] === oppositeColor) {
             newMatriz[x][i] = value;
           }
         }
+        
         /* actualizar diagonales superiores */
         for (let i = x - 1, j = y - 1; i >= 0 && j >= 0; i--, j--) {
           if (matriz[i][j] === oppositeColor) {
