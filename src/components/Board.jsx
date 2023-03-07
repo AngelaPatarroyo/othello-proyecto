@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import React, { useState, useEffect } from "react";
 
 
@@ -49,8 +48,11 @@ const Board = () => {
     if (matriz[x][y] !== 0) {
       return false;
     }
+  
     const value = turn ? 2 : 1;
     const oppositeColor = turn ? 1 : 2;
+  
+    // Verifica si hay una ficha del color opuesto en una posición adyacente
     const hasOppositeColorAdjacent = [
       [x - 1, y],
       [x + 1, y],
@@ -61,58 +63,43 @@ const Board = () => {
       [x + 1, y - 1],
       [x + 1, y + 1],
     ].some(([i, j]) => matriz[i]?.[j] === oppositeColor);
-
-
-
+  
     if (hasOppositeColorAdjacent) {
-      setMatriz((matriz) => {
-        const newMatriz = [...matriz];
-        newMatriz[x][y] = value;
-
-        for (let i = 0; i < matriz.length; i++) {
-          if (matriz[i][y] === oppositeColor) {
-            newMatriz[i][y] = value;
-          }
-          if (matriz[x][i] === oppositeColor) {
-            newMatriz[x][i] = value;
-          }
-        }
-        
-        /* actualizar diagonales superiores */
-        for (let i = x - 1, j = y - 1; i >= 0 && j >= 0; i--, j--) {
-          if (matriz[i][j] === oppositeColor) {
-            newMatriz[i][j] = value;
-          }
-        }
-        for (let i = x - 1, j = y + 1; i >= 0 && j < 8; i--, j++) {
-          if (matriz[i][j] === oppositeColor) {
-            newMatriz[i][j] = value;
+      const newMatriz = matriz.map(row => [...row]); // crear una copia de la matriz
+      newMatriz[x][y] = value;
+  
+      // Verifica si la ficha seleccionada está entre dos fichas del color opuesto
+      let shouldFlip = false;
+      for (let i = -1; i <= 1; i++) {
+        for (let j = -1; j <= 1; j++) {
+          if (matriz[x + i]?.[y + j] === oppositeColor) {
+            let row = x + i;
+            let col = y + j;
+            while (matriz[row]?.[col] === oppositeColor) {
+              row += i;
+              col += j;
+            }
+            if (matriz[row]?.[col] === value) {
+              for (let k = i, l = j; matriz[x + k]?.[y + l] === oppositeColor; k += i, l += j) {
+                newMatriz[x + k][y + l] = value;
+              }
+              shouldFlip = true;
+            }
           }
         }
-
-        /* actualiza diagonales inferiores */
-        for (let i = x + 1, j = y + 1; i < 8 && j < 8; i++, j++) {
-          if (matriz[i][j] === oppositeColor) {
-            newMatriz[i][j] = value;
-          }
-        }
-
-        for (let i = x + 1, j = y - 1; i < 8 && j >= 0; i++, j--) {
-          if (matriz[i][j] === oppositeColor) {
-            newMatriz[i][j] = value;
-          }
-        }
-
-        return newMatriz;
-      });
-    } else {
-      return false;
+      }
+  
+      if (shouldFlip) {
+        setMatriz(newMatriz);
+        setTurn(!turn);
+        return true;
+      }
     }
-
-    setTurn(!turn);
-
+  
+    return false;
   };
-
+  
+  
 
   const Tile = ({ row, col, value, onClick }) => (
     <div
