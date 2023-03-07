@@ -37,9 +37,9 @@ const Board = () => {
     setBlackCount(black);
 
     // verifica si algún color alcanzó 32
-    if (white >= 32 || black >= 32) {
+    if (white === 32 || black === 32) {
       // aquí se puede detener el juego de alguna manera
-      alert(`El Ganador es: ${white >=32 ? 'Blanco' : 'Negro'}`);
+      alert(`El Ganador es: ${white === 32 ? 'Blanco' : 'Negro'}`);
     }
   }, [matriz, whiteCount, blackCount]);
 
@@ -72,7 +72,7 @@ const Board = () => {
         /* actualizar la fila */
         // Actualiza valores en la misma columna
         for (let i = 0; i < matriz.length; i++) {
-          if (i !== x && matriz[i][y] === oppositeColor) {
+          if (matriz[i][y] === oppositeColor) {
             newMatriz[i][y] = value;
           }
         }
@@ -80,7 +80,7 @@ const Board = () => {
         /* actualizar la columna */
         // Actualiza valores en la misma fila
         for (let i = 0; i < matriz.length; i++) {
-          if (i !== y && matriz[x][i] === oppositeColor) {
+          if (matriz[x][i] === oppositeColor) {
             newMatriz[x][i] = value;
           }
         }
