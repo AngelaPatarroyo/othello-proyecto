@@ -25,11 +25,11 @@ const Board = () => {
 
   useEffect(() => {
     const white = matriz.reduce(
-      (acc, row) => acc + row.filter((val) => val === 1).length,
+      (acc, x) => acc + x.filter((value) => value === 1).length,
       0
     );
     const black = matriz.reduce(
-      (acc, row) => acc + row.filter((val) => val === 2).length,
+      (acc, x) => acc + x.filter((value) => value === 2).length,
       0
     );
     setWhiteCount(white);
@@ -53,51 +53,55 @@ const Board = () => {
     const oppositeColor = turn ? 1 : 2;
 
     // Verifica si hay una ficha del color opuesto en una posición adyacente
-    const hasOppositeColorAdjacent = [
-      [x - 1, y],
-      [x + 1, y],
-      [x, y - 1],
-      [x, y + 1],
-      [x - 1, y - 1],
-      [x - 1, y + 1],
-      [x + 1, y - 1],
-      [x + 1, y + 1],
+    const hasOppositeColorAdjacent = [[x - 1, y],
+    [x + 1, y],
+    [x, y - 1],
+    [x, y + 1],
+    [x - 1, y - 1],
+    [x - 1, y + 1],
+    [x + 1, y - 1],
+    [x + 1, y + 1],
     ].some(([i, j]) => matriz[i]?.[j] === oppositeColor);
 
     if (hasOppositeColorAdjacent) {
-      const newMatriz = matriz.map(row => [...row]); // crear una copia de la matriz
-      newMatriz[x][y] = value;
+      const newMatriz = [...matriz]; // crear una copia de la matriz
 
-      // Verifica si la ficha seleccionada está entre dos fichas del color opuesto
-      let shouldFlip = false;
-      for (let i = -1; i <= 1; i++) {
-        for (let j = -1; j <= 1; j++) {
-          if (matriz[x + i]?.[y + j] === oppositeColor) {
-            let row = x + i;
-            let col = y + j;
-            while (matriz[row]?.[col] === oppositeColor) {
-              row += i;
-              col += j;
-            }
-            if (matriz[row]?.[col] === value) {
-              for (let k = i, l = j; matriz[x + k]?.[y + l] === oppositeColor; k += i, l += j) {
-                newMatriz[x + k][y + l] = value;
+      // check if tile is already occupied before setting its value
+      if (newMatriz[x][y] === 0) {
+        newMatriz[x][y] = value;
+
+        // Verifica si la ficha seleccionada está entre dos fichas del color opuesto
+        let shouldFlip = false;
+        for (let i = -1; i <= 1; i++) {
+          for (let j = -1; j <= 1; j++) {
+            if (matriz[x + i]?.[y + j] === oppositeColor) {
+              let row = x + i;
+              let col = y + j;
+              while (matriz[row]?.[col] === oppositeColor) {
+                row += i;
+                col += j;
               }
-              shouldFlip = true;
+              if (matriz[row]?.[col] === value) {
+                for (let k = i, l = j; matriz[x + k]?.[y + l] === oppositeColor; k += i, l += j) {
+                  newMatriz[x + k][y + l] = value;
+                }
+                shouldFlip = true;
+              }
             }
           }
         }
-      }
 
-      if (shouldFlip) {
-        setMatriz(newMatriz);
-        setTurn(!turn);
-        return true;
+        if (shouldFlip) {
+          setMatriz(newMatriz);
+          setTurn(!turn);
+          return true;
+        }
       }
     }
 
     return false;
   };
+
 
   const resetGame = () => {
     setMatriz([
@@ -114,11 +118,15 @@ const Board = () => {
     setWhiteCount(2);
     setBlackCount(2);
   };
-  
+
 
   const Tile = ({ row, col, value, onClick }) => (
     <div
-      onClick={() => onClick(row, col)}
+      onClick={(event) => {
+        if (event.target === event.currentTarget) {
+          onClick(row, col);
+        }
+      }}
       className="flex items-center justify-center bg-green-600 h-20 w-20 border-solid border-2 border-green-800"
     >
       {value !== 0 && (
@@ -129,6 +137,7 @@ const Board = () => {
       )}
     </div>
   );
+
 
   return (
     <div className="mt-14">
