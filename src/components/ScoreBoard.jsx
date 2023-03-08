@@ -18,8 +18,8 @@ const ScoreBoard = ({ setTurn, setMatriz, setBlackCount, setWhiteCount, whiteCou
 
     return (
         <div className="">
-            <h1 className="ml-64 mt-10 text-6xl">Othello</h1>
-            <div className="ml-28 border-double border-2 border-orange-900">
+            <h1 className="mt-10 text-6xl">Othello</h1>
+            <div className="w-96 border-double border-2 border-orange-900">
 
                 <div className="mt-10 flex justify-center">Blanco tiene: {whiteCount} fichas en el tablero</div>
                 <div className=" flex justify-center">Negro tiene: {blackCount} fichas en el tablero</div>
@@ -27,9 +27,9 @@ const ScoreBoard = ({ setTurn, setMatriz, setBlackCount, setWhiteCount, whiteCou
 
                 <button
                     onClick={resetGame}
-                    className="flex justify-center mt-10 bg-green-600 text-white rounded-lg py-2 px-4 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-opacity-50"
+                    className="flex items-center justify-center mt-10 bg-green-600 text-white rounded-lg py-2 px-4 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-opacity-50"
                 >
-                    Reiniciar
+                    New Game
                 </button>
             </div>
         </div>

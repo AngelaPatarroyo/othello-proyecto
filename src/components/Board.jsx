@@ -13,7 +13,7 @@ import ScoreBoard from './ScoreBoard'
 const Board = () => {
   const [turn, setTurn] = useState(true);
   const [matriz, setMatriz] = useState([
-    
+
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
@@ -25,7 +25,6 @@ const Board = () => {
   ]);
   const [whiteCount, setWhiteCount] = useState(0);
   const [blackCount, setBlackCount] = useState(0);
-
 
   useEffect(() => {
     const white = matriz.reduce(
@@ -46,63 +45,48 @@ const Board = () => {
     }
   }, [matriz, whiteCount, blackCount]);
 
-
-
   const checkTile = (x, y) => {
 
     const value = turn ? 2 : 1;
     const oppositeColor = turn ? 1 : 2;
 
-    // Verifica si hay una ficha del color opuesto en una posición adyacente
-    const hasOppositeColorAdjacent = [[x - 1, y],
-    [x + 1, y],
-    [x, y - 1],
-    [x, y + 1],
-    [x - 1, y - 1],
-    [x - 1, y + 1],
-    [x + 1, y - 1],
-    [x + 1, y + 1],
-    ].some(([i, j]) => matriz[i]?.[j] === oppositeColor);
 
-    if (hasOppositeColorAdjacent) {
-      const newMatriz = [...matriz]; // crear una copia de la matriz
+    const newMatriz = [...matriz];
+    if (newMatriz[x][y] === 0) {
 
-      // check if tile is already occupied before setting its value
-      if (newMatriz[x][y] === 0) {
-        // Verifica si la ficha seleccionada está entre dos fichas del color opuesto
-        let shouldFlip = false;
-        for (let i = -1; i <= 1; i++) {
-          for (let j = -1; j <= 1; j++) {
-            if (i === 0 && j === 0) {
-              continue; // saltar la ficha actual
+      // Verifica si la ficha seleccionada está entre dos fichas del color opuesto
+      let shouldFlip = false;
+      for (let i = -1; i <= 1; i++) {
+        for (let j = -1; j <= 1; j++) {
+          if (i === 0 && j === 0) {
+          }
+          if (matriz[x + i]?.[y + j] === oppositeColor) {
+            let row = x + i;
+            let col = y + j;
+            while (matriz[row]?.[col] === oppositeColor) {
+              row += i;
+              col += j;
             }
-            if (matriz[x + i]?.[y + j] === oppositeColor) {
-              let row = x + i;
-              let col = y + j;
-              while (matriz[row]?.[col] === oppositeColor) {
-                row += i;
-                col += j;
+            if (matriz[row]?.[col] === value) {
+              // se pueden voltear las fichas en esta dirección
+              for (let k = i, l = j; matriz[x + k]?.[y + l] === oppositeColor; k += i, l += j) {
+                newMatriz[x + k][y + l] = value;
               }
-              if (matriz[row]?.[col] === value) {
-                // se pueden voltear las fichas en esta dirección
-                for (let k = i, l = j; matriz[x + k]?.[y + l] === oppositeColor; k += i, l += j) {
-                  newMatriz[x + k][y + l] = value;
-                }
-                shouldFlip = true;
-              }
+              shouldFlip = true;
             }
           }
         }
-
-        if (shouldFlip) {
-          newMatriz[x][y] = value;
-          setMatriz(newMatriz);
-          setTurn(!turn);
-          return true;
-        }
       }
 
+      if (shouldFlip) {
+        newMatriz[x][y] = value;
+        setMatriz(newMatriz);
+        setTurn(!turn);
+        return true;
+      }
     }
+
+
     return false;
   };
 
@@ -121,17 +105,17 @@ const Board = () => {
           </div>
         ))}
         <div>
-          <ScoreBoard
-            setTurn={setTurn}
-            setMatriz={setMatriz}
-            setBlackCount={setBlackCount}
-            setWhiteCount={setWhiteCount}
-            whiteCount={whiteCount}
-            blackCount={blackCount}
-            turn={turn}
-          />
         </div>
       </div>
+      <ScoreBoard
+        setTurn={setTurn}
+        setMatriz={setMatriz}
+        setBlackCount={setBlackCount}
+        setWhiteCount={setWhiteCount}
+        whiteCount={whiteCount}
+        blackCount={blackCount}
+        turn={turn}
+      />
     </div>
   );
 };
