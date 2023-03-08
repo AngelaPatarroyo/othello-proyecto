@@ -13,6 +13,7 @@ import ScoreBoard from './ScoreBoard'
 const Board = () => {
   const [turn, setTurn] = useState(true);
   const [matriz, setMatriz] = useState([
+    
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
@@ -24,7 +25,7 @@ const Board = () => {
   ]);
   const [whiteCount, setWhiteCount] = useState(0);
   const [blackCount, setBlackCount] = useState(0);
-  
+
 
   useEffect(() => {
     const white = matriz.reduce(
@@ -102,33 +103,34 @@ const Board = () => {
       }
 
     }
-
     return false;
   };
 
   return (
-    <div className="flex">
-    <div className="mt-14 ">
-      {matriz.map((row, rowIndex) => (
-        <div key={rowIndex} className="flex justify-start ml-44">
-          {row.map((value, colIndex) => (
-            <Tile
-              key={colIndex}
-              value={value}
-              onClick={() => checkTile(rowIndex, colIndex)}
-            />
-          ))}
+    <div className="flex items-center space-x-2 text-base gap-x-4 mt-8">
+      <div className="mt-14">
+        {matriz.map((row, rowIndex) => (
+          <div key={rowIndex} className="flex justify-start ml-44">
+            {row.map((value, colIndex) => (
+              <Tile
+                key={colIndex}
+                value={value}
+                onClick={() => checkTile(rowIndex, colIndex)}
+              />
+            ))}
+          </div>
+        ))}
+        <div>
+          <ScoreBoard
+            setTurn={setTurn}
+            setMatriz={setMatriz}
+            setBlackCount={setBlackCount}
+            setWhiteCount={setWhiteCount}
+            whiteCount={whiteCount}
+            blackCount={blackCount}
+            turn={turn}
+          />
         </div>
-      ))}
-       <ScoreBoard
-      setTurn={setTurn}
-      setMatriz={setMatriz}
-      setBlackCount={setBlackCount}
-      setWhiteCount={setWhiteCount}
-      whiteCount={whiteCount}
-      blackCount={blackCount}
-      turn={turn}
-    />
       </div>
     </div>
   );
