@@ -97,7 +97,7 @@ const Board = () => {
           return true;
         }
       }
-      
+
     }
 
     return false;
@@ -123,11 +123,7 @@ const Board = () => {
 
   const Tile = ({ row, col, value, onClick }) => (
     <div
-      onClick={(event) => {
-        if (event.target === event.currentTarget) {
-          onClick(row, col);
-        }
-      }}
+      onClick={() => onClick(row, col)}
       className="flex items-center justify-center bg-green-600 h-20 w-20 border-solid border-2 border-green-800"
     >
       {value !== 0 && (
