@@ -1,11 +1,11 @@
 import Board from './components/Board';
-import ScoreBoard from './components/ScoreBoard';
+
 
 const App = () => {
   return (
-    <div className="container flex">
+    <div>
       <Board />
-      <ScoreBoard />
+     
 
     </div>
   )

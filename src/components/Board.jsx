@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import Tile from './Tile'
+import ScoreBoard from './ScoreBoard'
 
 
 /* false = turno blanco
@@ -22,6 +24,7 @@ const Board = () => {
   ]);
   const [whiteCount, setWhiteCount] = useState(0);
   const [blackCount, setBlackCount] = useState(0);
+  
 
   useEffect(() => {
     const white = matriz.reduce(
@@ -36,9 +39,9 @@ const Board = () => {
     setBlackCount(black);
 
     // verifica si algún color alcanzó 32
-    if (white === 32 || black === 32) {
+    if (white >= 32 || black >= 32) {
       // aquí se puede detener el juego de alguna manera
-      alert(`El Ganador es: ${white === 32 ? 'Blanco' : 'Negro'}`);
+      alert(`El Ganador es: ${white >= 32 ? 'Blanco' : 'Negro'}`);
     }
   }, [matriz, whiteCount, blackCount]);
 
@@ -103,61 +106,33 @@ const Board = () => {
     return false;
   };
 
-
-  const resetGame = () => {
-    setMatriz([
-      [0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 1, 2, 0, 0, 0],
-      [0, 0, 0, 2, 1, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0],
-    ]);
-    setTurn(true);
-    setWhiteCount(2);
-    setBlackCount(2);
-  };
-
-
-  const Tile = ({ row, col, value, onClick }) => (
-    <div
-      onClick={() => onClick(row, col)}
-      className="flex items-center justify-center bg-green-600 h-20 w-20 border-solid border-2 border-green-800"
-    >
-      {value !== 0 && (
-        <div
-          className={`${value === 1 ? "bg-white" : "bg-black"
-            } h-16 w-16 rounded-full`}
-        />
-      )}
-    </div>
-  );
-
-
   return (
-    <div className="mt-14">
+    <div className="flex">
+    <div className="mt-14 ">
       {matriz.map((row, rowIndex) => (
         <div key={rowIndex} className="flex justify-start ml-44">
           {row.map((value, colIndex) => (
             <Tile
               key={colIndex}
-              row={rowIndex}
-              col={colIndex}
               value={value}
-              onClick={checkTile}
+              onClick={() => checkTile(rowIndex, colIndex)}
             />
           ))}
         </div>
       ))}
-      <div className="mt-10 flex justify-center">Blanco tiene: {whiteCount} fichas en el tablero</div>
-      <div className=" flex justify-center">Negro tiene: {blackCount} fichas en el tablero</div>
-      <div className=" flex justify-center">Es el truno de {turn === false ? 'Blanco' : 'Negro'}</div>
-      <button onClick={resetGame} className="mt-10 bg-green-600 text-white rounded-lg py-2 px-4 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-opacity-50">
-        Reiniciar
-      </button>
+       <ScoreBoard
+      setTurn={setTurn}
+      setMatriz={setMatriz}
+      setBlackCount={setBlackCount}
+      setWhiteCount={setWhiteCount}
+      whiteCount={whiteCount}
+      blackCount={blackCount}
+      turn={turn}
+    />
+      </div>
     </div>
   );
-}
-export default Board;
+};
+
+
+export default Board
