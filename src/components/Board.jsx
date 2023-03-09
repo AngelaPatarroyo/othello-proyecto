@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Tile from './Tile'
 import ScoreBoard from './ScoreBoard'
+import Swal from 'sweetalert2'
 
 
 /* false = turno blanco
@@ -23,8 +24,8 @@ const Board = () => {
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
   ]);
-  const [whiteCount, setWhiteCount] = useState(0);
-  const [blackCount, setBlackCount] = useState(0);
+  const [whiteCount, setWhiteCount] = useState(2);
+  const [blackCount, setBlackCount] = useState(2);
 
   useEffect(() => {
     const white = matriz.reduce(
@@ -41,7 +42,13 @@ const Board = () => {
     // verifica si algún color alcanzó 32
     if (white >= 32 || black >= 32) {
       // aquí se puede detener el juego de alguna manera
-      alert(`El Ganador es: ${white >= 32 ? 'Blanco' : 'Negro'}`);
+      Swal.fire({
+        title: `El Ganador es: ${white >= 32 ? 'Blanco' : 'Negro'}`,
+        width: 600,
+        padding: '3em',
+        color: '#716add',
+      })
+
     }
   }, [matriz, whiteCount, blackCount]);
 
@@ -84,7 +91,10 @@ const Board = () => {
         setTurn(!turn);
         return true;
       } else {
-        alert('Movimiento no Permitido');
+        Swal.fire({
+          icon: 'error',
+          title: 'Oppss!',
+        })
         return false;
       }
     }
@@ -94,10 +104,32 @@ const Board = () => {
   };
 
   return (
-    <div className="flex items-center space-x-2 text-base gap-x-4 mt-8">
+    
+    <div className="flex gap-x- my-7 ml-28">
+      {/* <div className=" mt-14 ml-28 shadow-xl shadow-slate-500"> 
+        <p className="text-3xl font-bold px-3 mt-14 ">1</p>
+        <p className="text-3xl font-bold px-3 mt-12">2</p>
+        <p className="text-3xl font-bold px-3 mt-12">3</p>
+        <p className="text-3xl font-bold px-3 mt-10">4</p>
+        <p className="text-3xl font-bold px-3 mt-10">5</p>
+        <p className="text-3xl font-bold px-3 mt-10">6</p>
+        <p className="text-3xl font-bold px-3 mt-12">7</p>
+        <p className="text-3xl font-bold px-3 mt-12">8</p>
+      </div> */}
       <div className="mt-14">
+     {/*  <div className="flex shadow-xl shadow-slate-500"> 
+        <p className="text-3xl font-bold ml-8 ">A</p>
+        <p className="text-3xl font-bold ml-14">B</p>
+        <p className="text-3xl font-bold ml-16">C</p>
+        <p className="text-3xl font-bold ml-14">D</p>
+        <p className="text-3xl font-bold ml-14">E</p>
+        <p className="text-3xl font-bold ml-16">F</p>
+        <p className="text-3xl font-bold ml-16">G</p>
+        <p className="text-3xl font-bold ml-14">H</p>
+      </div> */}
+      
         {matriz.map((row, rowIndex) => (
-          <div key={rowIndex} className="flex justify-start ml-44">
+          <div key={rowIndex} className="flex shadow-lg shadow-slate-700">
             {row.map((value, colIndex) => (
               <Tile
                 key={colIndex}
@@ -110,6 +142,7 @@ const Board = () => {
         <div>
         </div>
       </div>
+      <div className="w-max">
       <ScoreBoard
         setTurn={setTurn}
         setMatriz={setMatriz}
@@ -119,6 +152,7 @@ const Board = () => {
         blackCount={blackCount}
         turn={turn}
       />
+      </div>
     </div>
   );
 };
