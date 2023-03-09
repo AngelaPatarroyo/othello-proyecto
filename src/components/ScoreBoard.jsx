@@ -26,7 +26,7 @@ const ScoreBoard = ({ setTurn, setMatriz, setBlackCount, setWhiteCount, whiteCou
                 <div className=" ml-8 bg-black h-16 w-16 rounded-full mr-3 mt-8"></div>
                 <div className="flex text-6xl justify-center mt-8">: {blackCount}</div>
                 </div>
-                <div className="flex justify-center text-3xl mt-10 ml-28"> <b className="mr-3">{turn === false ? 'White! ' : 'Black! '} </b>  it's your turn</div>
+                <div className="flex justify-center text-5xl mt-10 ml-20"> <b className="mr-3">{turn === false ? 'White! ' : 'Black! '} </b>  it's your turn</div>
                 <button
                     onClick={resetGame}
                     className="ml-56 mb-8 mt-8 bg-green-600 text-white font-bold rounded-lg py-2 px-4 
