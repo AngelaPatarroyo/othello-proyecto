@@ -51,8 +51,8 @@ const Board = () => {
     const oppositeColor = turn ? 1 : 2;
 
 
-    const setMatriz = [...matriz];
-    if (setMatriz[x][y] === 0) {
+    const newMatriz = [...matriz];
+    if (newMatriz[x][y] === 0) {
 
       // Verifica si la ficha seleccionada está entre dos fichas del color opuesto
       let shouldFlip = false;
@@ -70,7 +70,7 @@ const Board = () => {
             if (matriz[row]?.[col] === value) {
               // se pueden voltear las fichas en esta dirección
               for (let k = i, l = j; matriz[x + k]?.[y + l] === oppositeColor; k += i, l += j) {
-                setMatriz[x + k][y + l] = value;
+                newMatriz[x + k][y + l] = value;
               }
               shouldFlip = true;
             }
@@ -79,11 +79,17 @@ const Board = () => {
       }
 
       if (shouldFlip) {
-        setMatriz[x][y] = value;
+        newMatriz[x][y] = value;
+        setMatriz(newMatriz);
         setTurn(!turn);
         return true;
+      } else {
+        alert('Movimiento no Permitido');
+        return false;
       }
     }
+
+
     return false;
   };
 
