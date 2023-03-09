@@ -12,8 +12,8 @@ const ScoreBoard = ({ setTurn, setMatriz, setBlackCount, setWhiteCount, whiteCou
             [0, 0, 0, 0, 0, 0, 0, 0],
         ]);
         setTurn(true);
-        setWhiteCount(2);
-        setBlackCount(2);
+        setWhiteCount(32);
+        setBlackCount(32);
     };
 
     return (

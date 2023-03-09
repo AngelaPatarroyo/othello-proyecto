@@ -24,15 +24,15 @@ const Board = () => {
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
   ]);
-  const [whiteCount, setWhiteCount] = useState(2);
-  const [blackCount, setBlackCount] = useState(2);
+  const [whiteCount, setWhiteCount] = useState(32);
+  const [blackCount, setBlackCount] = useState(32);
 
   useEffect(() => {
-    const white = matriz.reduce(
+    const white = 32 - matriz.reduce(
       (acc, x) => acc + x.filter((value) => value === 1).length,
       0
     );
-    const black = matriz.reduce(
+    const black = 32 - matriz.reduce(
       (acc, x) => acc + x.filter((value) => value === 2).length,
       0
     );
@@ -40,10 +40,10 @@ const Board = () => {
     setBlackCount(black);
 
     // verifica si algún color alcanzó 32
-    if (white >= 32 || black >= 32) {
+    if (white === 0 || black ===0) {
       // aquí se puede detener el juego de alguna manera
       Swal.fire({
-        title: `El Ganador es: ${white >= 32 ? 'Blanco' : 'Negro'}`,
+        title: `El Ganador es: ${white === 0 ? 'Blanco' : 'Negro'}`,
         width: 600,
         padding: '3em',
         color: '#716add',
