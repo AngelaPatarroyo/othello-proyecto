@@ -105,7 +105,7 @@ const Board = () => {
 
   return (
     
-    <div className="flex gap-x- my-7 ml-28">
+    <div className="flex gap-x- my-7 ml-32">
       {/* <div className=" mt-14 ml-28 shadow-xl shadow-slate-500"> 
         <p className="text-3xl font-bold px-3 mt-14 ">1</p>
         <p className="text-3xl font-bold px-3 mt-12">2</p>
