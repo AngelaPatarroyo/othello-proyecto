@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Tile from './Tile'
 import ScoreBoard from './ScoreBoard'
 import Swal from 'sweetalert2'
+import BoardSizeChange from "./BoardSizeChage";
 
 
 /* false = turno blanco
@@ -40,10 +41,10 @@ const Board = () => {
     setBlackCount(black);
 
     // verifica si algún color alcanzó 32
-    if (white === 0 || black ===0) {
+    if (white <= 0 || black <= 0) {
       // aquí se puede detener el juego de alguna manera
       Swal.fire({
-        title: `El Ganador es: ${white === 0 ? 'Blanco' : 'Negro'}`,
+        title: `And the winner is ... ${white <= 0 ? 'White' : 'Black'}`,
         width: 600,
         padding: '3em',
         color: '#716add',
@@ -51,16 +52,12 @@ const Board = () => {
 
     }
   }, [matriz, whiteCount, blackCount]);
-
   const checkTile = (x, y) => {
 
     const value = turn ? 2 : 1;
     const oppositeColor = turn ? 1 : 2;
-
-
     const newMatriz = [...matriz];
     if (newMatriz[x][y] === 0) {
-
       // Verifica si la ficha seleccionada está entre dos fichas del color opuesto
       let shouldFlip = false;
       for (let i = -1; i <= 1; i++) {
@@ -84,55 +81,31 @@ const Board = () => {
           }
         }
       }
-
+      
       if (shouldFlip) {
         newMatriz[x][y] = value;
         setMatriz(newMatriz);
         setTurn(!turn);
         return true;
+        
       } else {
         Swal.fire({
           icon: 'error',
-          title: 'Oppss!',
+          title: 'Hey, You cannot do that!',
         })
         return false;
       }
     }
-
-
     return false;
   };
 
   return (
-    
     <div className="flex gap-x- my-7 ml-32">
-      {/* <div className=" mt-14 ml-28 shadow-xl shadow-slate-500"> 
-        <p className="text-3xl font-bold px-3 mt-14 ">1</p>
-        <p className="text-3xl font-bold px-3 mt-12">2</p>
-        <p className="text-3xl font-bold px-3 mt-12">3</p>
-        <p className="text-3xl font-bold px-3 mt-10">4</p>
-        <p className="text-3xl font-bold px-3 mt-10">5</p>
-        <p className="text-3xl font-bold px-3 mt-10">6</p>
-        <p className="text-3xl font-bold px-3 mt-12">7</p>
-        <p className="text-3xl font-bold px-3 mt-12">8</p>
-      </div> */}
       <div className="mt-14">
-     {/*  <div className="flex shadow-xl shadow-slate-500"> 
-        <p className="text-3xl font-bold ml-8 ">A</p>
-        <p className="text-3xl font-bold ml-14">B</p>
-        <p className="text-3xl font-bold ml-16">C</p>
-        <p className="text-3xl font-bold ml-14">D</p>
-        <p className="text-3xl font-bold ml-14">E</p>
-        <p className="text-3xl font-bold ml-16">F</p>
-        <p className="text-3xl font-bold ml-16">G</p>
-        <p className="text-3xl font-bold ml-14">H</p>
-      </div> */}
-      
         {matriz.map((row, rowIndex) => (
           <div key={rowIndex} className="flex shadow-lg shadow-slate-700">
             {row.map((value, colIndex) => (
               <Tile
-                key={colIndex}
                 value={value}
                 onClick={() => checkTile(rowIndex, colIndex)}
               />
@@ -143,15 +116,20 @@ const Board = () => {
         </div>
       </div>
       <div className="w-max">
-      <ScoreBoard
-        setTurn={setTurn}
-        setMatriz={setMatriz}
-        setBlackCount={setBlackCount}
-        setWhiteCount={setWhiteCount}
-        whiteCount={whiteCount}
-        blackCount={blackCount}
-        turn={turn}
-      />
+        <ScoreBoard
+          setTurn={setTurn}
+          setMatriz={setMatriz}
+          setBlackCount={setBlackCount}
+          setWhiteCount={setWhiteCount}
+          whiteCount={whiteCount}
+          blackCount={blackCount}
+          turn={turn}
+        />
+        <BoardSizeChange
+          setMatriz={setMatriz}
+          turn={turn}
+          setTurn={setTurn}
+        />
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
-const ScoreBoard = ({ setTurn, setMatriz, setBlackCount, setWhiteCount, whiteCount, blackCount, turn }) => {
+const ScoreBoard = ({ setTurn, setMatriz, setBlackCount, 
+    setWhiteCount, whiteCount, blackCount, turn }) => {
 
     const resetGame = () => {
         setMatriz([
@@ -14,19 +15,21 @@ const ScoreBoard = ({ setTurn, setMatriz, setBlackCount, setWhiteCount, whiteCou
         setTurn(true);
         setWhiteCount(30);
         setBlackCount(30);
+        
     };
-
     return (
         <div>
-        <p className="text-8xl font-bold ml-36">Othello</p>
+            <p className="text-8xl font-bold ml-36">Othello</p>
             <div className="ml-14 mt-32 rounded-3xl inset-10 -inset-y-36">
                 <div className="flex ml-16">
-                <div className="bg-white h-16 w-16 rounded-full mr-3 mt-11"></div>
-                <div className="flex text-6xl justify-center mt-8"> :  {whiteCount} </div>
-                <div className=" ml-8 bg-black h-16 w-16 rounded-full mr-3 mt-8"></div>
-                <div className="flex text-6xl justify-center mt-8">: {blackCount}</div>
+                    <div className="bg-white h-16 w-16 rounded-full mr-3 mt-8"></div>
+                    <div className="flex text-6xl justify-center mt-8"> :  {whiteCount} </div>
+                    <div className=" ml-8 bg-black h-16 w-16 rounded-full mr-3 mt-8"></div>
+                    <div className="flex text-6xl justify-center mt-8">: {blackCount}</div>
                 </div>
-                <div className="flex justify-center text-5xl mt-10 ml-20"> <b className="mr-3">{turn === false ? 'White! ' : 'Black! '} </b>  it's your turn</div>
+                <div className="flex justify-center text-5xl mt-10 ml-20">
+                    <b className="mr-3">{turn === false ? 'White! ' : 'Black! '}
+                    </b>  it's your turn</div>
                 <button
                     onClick={resetGame}
                     className="ml-56 mb-8 mt-8 bg-green-600 text-white font-bold rounded-lg py-2 px-4 
@@ -37,7 +40,7 @@ const ScoreBoard = ({ setTurn, setMatriz, setBlackCount, setWhiteCount, whiteCou
                 </button>
             </div>
         </div>
-        
+
     );
 };
 
