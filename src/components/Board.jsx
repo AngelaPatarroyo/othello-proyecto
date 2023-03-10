@@ -48,6 +48,14 @@ const Board = () => {
         width: 600,
         padding: '3em',
         color: '#716add',
+        background: '#fff url(https://sweetalert2.github.io/images/trees.png)',
+        backdrop: `
+    rgba(0,0,123,0.4)
+    url("https://sweetalert2.github.io/images/nyan-cat.gif")
+    left top
+    no-repeat
+  `
+
       })
 
     }
@@ -81,13 +89,13 @@ const Board = () => {
           }
         }
       }
-      
+
       if (shouldFlip) {
         newMatriz[x][y] = value;
         setMatriz(newMatriz);
         setTurn(!turn);
         return true;
-        
+
       } else {
         Swal.fire({
           icon: 'error',
