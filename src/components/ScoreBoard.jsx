@@ -1,5 +1,5 @@
 const ScoreBoard = ({ setTurn, setMatriz, setBlackCount, 
-    setWhiteCount, whiteCount, blackCount, turn }) => {
+    setWhiteCount, whiteCount, blackCount, turn, setEndGame }) => {
 
     const resetGame = () => {
         setMatriz([
@@ -13,6 +13,7 @@ const ScoreBoard = ({ setTurn, setMatriz, setBlackCount,
             [0, 0, 0, 0, 0, 0, 0, 0],
         ]);
         setTurn(true);
+        setEndGame(false);
         setWhiteCount(30);
         setBlackCount(30);
         

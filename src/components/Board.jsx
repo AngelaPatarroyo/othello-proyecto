@@ -27,6 +27,7 @@ const Board = () => {
   ]);
   const [whiteCount, setWhiteCount] = useState(32);
   const [blackCount, setBlackCount] = useState(32);
+  const [endGame, setEndGame] = useState(false);
 
   useEffect(() => {
     const white = 32 - matriz.reduce(
@@ -42,9 +43,10 @@ const Board = () => {
 
     // verifica si algún color alcanzó 32
     if (white <= 0 || black <= 0) {
+      setEndGame(true);
       // aquí se puede detener el juego de alguna manera
       Swal.fire({
-        title: `And the winner is ... ${white <= 0 ? 'White' : 'Black'}`,
+        title: `Game Over!!! The winner is ... ${white <= 0 ? 'White' : 'Black'}`,
         width: 600,
         padding: '3em',
         color: '#716add',
@@ -55,13 +57,14 @@ const Board = () => {
     left top
     no-repeat
   `
-
       })
-
     }
   }, [matriz, whiteCount, blackCount]);
-  const checkTile = (x, y) => {
 
+  const checkTile = (x, y) => {
+    if (endGame) {
+      return false;
+    }
     const value = turn ? 2 : 1;
     const oppositeColor = turn ? 1 : 2;
     const newMatriz = [...matriz];
@@ -116,6 +119,7 @@ const Board = () => {
               <Tile
                 value={value}
                 onClick={() => checkTile(rowIndex, colIndex)}
+                key={colIndex}
               />
             ))}
           </div>
@@ -132,6 +136,7 @@ const Board = () => {
           whiteCount={whiteCount}
           blackCount={blackCount}
           turn={turn}
+          setEndGame={setEndGame}
         />
         <BoardSizeChange
           setMatriz={setMatriz}
