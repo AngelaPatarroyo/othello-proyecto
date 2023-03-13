@@ -3,6 +3,7 @@ import Tile from './Tile'
 import ScoreBoard from './ScoreBoard'
 import Swal from 'sweetalert2'
 import BoardSizeChange from "./BoardSizeChage";
+import { hasPossibleMoves } from "./CheckPossibleMoves";
 
 
 /* false = turno blanco
@@ -56,9 +57,17 @@ const Board = () => {
     url("https://sweetalert2.github.io/images/nyan-cat.gif")
     left top
     no-repeat
-  `
-      })
+    `
+      });
+    } else if (!hasPossibleMoves(matriz, turn)) {
+      setEndGame(true)
+      Swal.fire({
+        icon: 'error',
+        title: 'Hey no more moves you have lost the game!',
+      });
     }
+    
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [matriz, whiteCount, blackCount]);
 
   const checkTile = (x, y) => {
@@ -71,9 +80,11 @@ const Board = () => {
     if (newMatriz[x][y] === 0) {
       // Verifica si la ficha seleccionada está entre dos fichas del color opuesto
       let shouldFlip = false;
+  
       for (let i = -1; i <= 1; i++) {
         for (let j = -1; j <= 1; j++) {
           if (i === 0 && j === 0) {
+            continue;
           }
           if (matriz[x + i]?.[y + j] === oppositeColor) {
             let row = x + i;
@@ -87,18 +98,19 @@ const Board = () => {
               for (let k = i, l = j; matriz[x + k]?.[y + l] === oppositeColor; k += i, l += j) {
                 newMatriz[x + k][y + l] = value;
               }
+  
               shouldFlip = true;
+  
             }
           }
         }
       }
-
+  
       if (shouldFlip) {
         newMatriz[x][y] = value;
         setMatriz(newMatriz);
         setTurn(!turn);
         return true;
-
       } else {
         Swal.fire({
           icon: 'error',
@@ -107,7 +119,7 @@ const Board = () => {
         return false;
       }
     }
-    return false;
+  return false;
   };
 
   return (
