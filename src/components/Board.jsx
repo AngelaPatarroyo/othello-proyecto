@@ -122,9 +122,9 @@ const Board = () => {
         return true;
       } else {
         Swal.fire({
-          icon: 'error',
-          title: 'Uh-oh...',
-          text: 'Please try a different move!',
+          icon: 'warning',
+          title: 'Are you sure?',
+          text: 'That move is not allowed!',
         })
         return false;
       }
