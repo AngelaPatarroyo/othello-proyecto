@@ -146,10 +146,14 @@ const Board = () => {
             ))}
           </div>
         ))}
-        <div>
-        </div>
       </div>
       <div className="w-max">
+        <BoardSizeChange
+          setMatriz={setMatriz}
+          turn={turn}
+          setTurn={setTurn}
+          setEndGame={setEndGame}
+        />
         <ScoreBoard
           setTurn={setTurn}
           setMatriz={setMatriz}
@@ -160,15 +164,9 @@ const Board = () => {
           turn={turn}
           setEndGame={setEndGame}
         />
-        <BoardSizeChange
-          setMatriz={setMatriz}
-          turn={turn}
-          setTurn={setTurn}
-        />
       </div>
     </div>
   );
-};
-
+}
 
 export default Board

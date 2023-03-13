@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const BoardSizeChange = ({ setMatriz, turn, setTurn }) => {
+const BoardSizeChange = ({ setMatriz, turn, setTurn, setEndGame }) => {
   const [boardSize, setBoardSize] = useState(8);
 
   const handleBoardSizeChange = () => {
@@ -20,6 +20,7 @@ const BoardSizeChange = ({ setMatriz, turn, setTurn }) => {
       ]);
       if (turn === false) {
         setTurn(true);
+        setEndGame(false);
       }
     } else {
       const newMatriz = [
@@ -36,18 +37,24 @@ const BoardSizeChange = ({ setMatriz, turn, setTurn }) => {
       setMatriz(newMatriz);
       setBoardSize(8);
       setTurn(true);
+      setEndGame(false);
     }
     
   };
 
 
   return (
-    <div>
-      <button className="ml-56 mb-8 mt-8 bg-green-600 text-white font-bold rounded-lg py-2 px-4 
-                    hover:bg-green-700 focus:outline-none focus:ring-2 
-                    focus:ring-green-600 focus:ring-opacity-50" onClick={handleBoardSizeChange}>Change the board size</button>
+    <div className="absolute top-0 right-0 mt-8 mr-24 flex justify-center items-center">
+      <button
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+        onClick={handleBoardSizeChange}
+      >
+        Change the board size
+      </button>
     </div>
   );
 };
+
+
 
 export default BoardSizeChange;
