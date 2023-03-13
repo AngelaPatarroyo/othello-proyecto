@@ -62,12 +62,21 @@ const Board = () => {
     } else if (!hasPossibleMoves(matriz, turn)) {
       setEndGame(true)
       Swal.fire({
-        icon: 'error',
-        title: 'Hey no more moves you have lost the game!',
+        title: `Uh-oh, no more moves for you ...The winner is ${whiteCount < blackCount ? 'White' : 'Black'}`,
+        width: 600,
+        padding: '3em',
+        color: '#716add',
+        background: '#fff url(https://sweetalert2.github.io/images/trees.png)',
+        backdrop: `
+    rgba(0,0,123,0.4)
+    url("https://sweetalert2.github.io/images/nyan-cat.gif")
+    left top
+    no-repeat
+    `
       });
     }
-    
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [matriz, whiteCount, blackCount]);
 
   const checkTile = (x, y) => {
@@ -80,7 +89,7 @@ const Board = () => {
     if (newMatriz[x][y] === 0) {
       // Verifica si la ficha seleccionada está entre dos fichas del color opuesto
       let shouldFlip = false;
-  
+
       for (let i = -1; i <= 1; i++) {
         for (let j = -1; j <= 1; j++) {
           if (i === 0 && j === 0) {
@@ -98,14 +107,14 @@ const Board = () => {
               for (let k = i, l = j; matriz[x + k]?.[y + l] === oppositeColor; k += i, l += j) {
                 newMatriz[x + k][y + l] = value;
               }
-  
+
               shouldFlip = true;
-  
+
             }
           }
         }
       }
-  
+
       if (shouldFlip) {
         newMatriz[x][y] = value;
         setMatriz(newMatriz);
@@ -114,12 +123,13 @@ const Board = () => {
       } else {
         Swal.fire({
           icon: 'error',
-          title: 'Hey, You cannot do that!',
+          title: 'Uh-oh...',
+          text: 'Please try a different move!',
         })
         return false;
       }
     }
-  return false;
+    return false;
   };
 
   return (
