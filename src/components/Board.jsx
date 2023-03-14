@@ -23,6 +23,19 @@ const baseMatriz = () => [
   [0, 0, 0, 0, 0, 0, 0, 0],
 ];
 
+const baseMatriz10x10 = () => [
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 1, 2, 0, 0, 0, 0],
+  [0, 0, 0, 0, 2, 1, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+];
+
 const Board = () => {
   const [turn, setTurn] = useState(true);
   const [matriz, setMatriz] = useState(baseMatriz);
@@ -34,31 +47,17 @@ const Board = () => {
   const handleBoardSize = () => {
     if (boardSize === 8) {
       setBoardSize(10);
-      setMatriz([
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 1, 2, 0, 0, 0, 0],
-        [0, 0, 0, 0, 2, 1, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      ]);
-      if (turn === false) {
-        setTurn(true);
-        setEndGame(false);
-      }
+      setMatriz(baseMatriz10x10());
     } else {
-      const newMatriz = (baseMatriz)
-      setMatriz(newMatriz);
+      setMatriz(baseMatriz());
       setBoardSize(8);
+    }
+    if (turn === false) {
       setTurn(true);
       setEndGame(false);
     }
   };
-
+  
   useEffect(() => {
     const white = (boardSize === 8 ? 32 : 50) - matriz.reduce(
       (acc, x) => acc + x.filter((value) => value === 1).length,
@@ -147,6 +146,7 @@ const Board = () => {
           setBlackCount={setBlackCount}
           setTurn={setTurn}
           setEndGame={setEndGame}
+          baseMatriz10x10={baseMatriz10x10}
         />
       </div>
     </div>

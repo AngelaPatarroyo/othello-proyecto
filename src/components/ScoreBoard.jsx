@@ -11,30 +11,17 @@ const ScoreBoard = ({
     setTurn,
     setEndGame,
     baseMatriz,
+    baseMatriz10x10
   }) => {
     const newGame = () => {
-      const initialMatriz = boardSize === 8 ? 
-      baseMatriz() : 
-      [
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 1, 2, 0, 0, 0, 0],
-        [0, 0, 0, 0, 2, 1, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      ];
+      const initialMatriz =
+        boardSize === 8 ? baseMatriz() : baseMatriz10x10();
       setMatriz(initialMatriz);
       setWhiteCount(boardSize === 8 ? 32 : 50);
       setBlackCount(boardSize === 8 ? 32 : 50);
       setTurn(true);
       setEndGame(false);
     };
-    
-  
     return (
       <div className="h-screen flex items-center justify-center">
         <div className="border-2 border-black rounded-md w-96 p-6 ml-24 bg-slate-100 shadow-inner">
