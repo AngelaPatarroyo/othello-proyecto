@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import Tile from './Tile'
 import ScoreBoard from './ScoreBoard'
 import Swal from 'sweetalert2'
-import BoardSizeChange from "./BoardSizeChage";
+import BoardSizeChange from "./BoardSizeChange";
 import { hasPossibleMoves } from "./CheckPossibleMoves";
+import TileChecker from "./TileChecker";
 
 
 /* false = turno blanco
@@ -76,61 +76,10 @@ const Board = () => {
       });
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [matriz, whiteCount, blackCount]);
+    
+  }, [matriz, whiteCount, blackCount, turn]);
 
-  const checkTile = (x, y) => {
-    if (endGame) {
-      return false;
-    }
-    const value = turn ? 2 : 1;
-    const oppositeColor = turn ? 1 : 2;
-    const newMatriz = [...matriz];
-    if (newMatriz[x][y] === 0) {
-      // Verifica si la ficha seleccionada está entre dos fichas del color opuesto
-      let shouldFlip = false;
-
-      for (let i = -1; i <= 1; i++) {
-        for (let j = -1; j <= 1; j++) {
-          if (i === 0 && j === 0) {
-            continue;
-          }
-          if (matriz[x + i]?.[y + j] === oppositeColor) {
-            let row = x + i;
-            let col = y + j;
-            while (matriz[row]?.[col] === oppositeColor) {
-              row += i;
-              col += j;
-            }
-            if (matriz[row]?.[col] === value) {
-              // se pueden voltear las fichas en esta dirección
-              for (let k = i, l = j; matriz[x + k]?.[y + l] === oppositeColor; k += i, l += j) {
-                newMatriz[x + k][y + l] = value;
-              }
-
-              shouldFlip = true;
-
-            }
-          }
-        }
-      }
-
-      if (shouldFlip) {
-        newMatriz[x][y] = value;
-        setMatriz(newMatriz);
-        setTurn(!turn);
-        return true;
-      } else {
-        Swal.fire({
-          icon: 'warning',
-          title: 'Are you sure?',
-          text: 'That move is not allowed!',
-        })
-        return false;
-      }
-    }
-    return false;
-  };
+  
 
   return (
     <div className="flex gap-x- my-7 ml-32">
@@ -138,11 +87,16 @@ const Board = () => {
         {matriz.map((row, rowIndex) => (
           <div key={rowIndex} className="flex shadow-lg shadow-slate-700">
             {row.map((value, colIndex) => (
-              <Tile
-                value={value}
-                onClick={() => checkTile(rowIndex, colIndex)}
-                key={colIndex}
-              />
+              <TileChecker
+              x={rowIndex}
+              y={colIndex}
+              endGame={endGame}
+              turn={turn}
+              matriz={matriz}
+              setMatriz={setMatriz}
+              setTurn={setTurn}
+              key={colIndex}
+            />
             ))}
           </div>
         ))}
