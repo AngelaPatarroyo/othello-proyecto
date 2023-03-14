@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ScoreBoard from './ScoreBoard'
 import Swal from 'sweetalert2'
-import BoardSizeChange from "./BoardSizeChange";
 import { hasPossibleMoves } from "./CheckPossibleMoves";
 import TileChecker from "./TileChecker";
 
@@ -13,29 +12,59 @@ import TileChecker from "./TileChecker";
 2=negro
 0=vacio */
 
+const baseMatriz = () => [
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 1, 2, 0, 0, 0],
+  [0, 0, 0, 2, 1, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+];
+
 const Board = () => {
   const [turn, setTurn] = useState(true);
-  const [matriz, setMatriz] = useState([
-
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 1, 2, 0, 0, 0],
-    [0, 0, 0, 2, 1, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-  ]);
+  const [matriz, setMatriz] = useState(baseMatriz);
+  const [boardSize, setBoardSize] = useState(8);
   const [whiteCount, setWhiteCount] = useState(32);
   const [blackCount, setBlackCount] = useState(32);
   const [endGame, setEndGame] = useState(false);
 
+  const handleBoardSize = () => {
+    if (boardSize === 8) {
+      setBoardSize(10);
+      setMatriz([
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 1, 2, 0, 0, 0, 0],
+        [0, 0, 0, 0, 2, 1, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      ]);
+      if (turn === false) {
+        setTurn(true);
+        setEndGame(false);
+      }
+    } else {
+      const newMatriz = (baseMatriz)
+      setMatriz(newMatriz);
+      setBoardSize(8);
+      setTurn(true);
+      setEndGame(false);
+    }
+  };
+
   useEffect(() => {
-    const white = 32 - matriz.reduce(
+    const white = (boardSize === 8 ? 32 : 50) - matriz.reduce(
       (acc, x) => acc + x.filter((value) => value === 1).length,
       0
     );
-    const black = 32 - matriz.reduce(
+    const black = (boardSize === 8 ? 32 : 50) - matriz.reduce(
       (acc, x) => acc + x.filter((value) => value === 2).length,
       0
     );
@@ -75,11 +104,7 @@ const Board = () => {
     `
       });
     }
-
-    
-  }, [matriz, whiteCount, blackCount, turn]);
-
-  
+  }, [matriz, whiteCount, blackCount, turn, boardSize]);
 
   return (
     <div className="flex gap-x- my-7 ml-32">
@@ -88,34 +113,39 @@ const Board = () => {
           <div key={rowIndex} className="flex shadow-lg shadow-slate-700">
             {row.map((value, colIndex) => (
               <TileChecker
-              x={rowIndex}
-              y={colIndex}
-              endGame={endGame}
-              turn={turn}
-              matriz={matriz}
-              setMatriz={setMatriz}
-              setTurn={setTurn}
-              key={colIndex}
-            />
+                x={rowIndex}
+                y={colIndex}
+                endGame={endGame}
+                turn={turn}
+                matriz={matriz}
+                setMatriz={setMatriz}
+                setTurn={setTurn}
+                key={colIndex}
+              />
             ))}
           </div>
         ))}
       </div>
       <div className="w-max">
-        <BoardSizeChange
-          setMatriz={setMatriz}
-          turn={turn}
-          setTurn={setTurn}
-          setEndGame={setEndGame}
-        />
+        <div className="absolute top-0 right-0 mt-8 mr-24 flex justify-center items-center">
+          <button
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+            onClick={handleBoardSize}
+          >
+            Change the board size
+          </button>
+        </div>
         <ScoreBoard
-          setTurn={setTurn}
-          setMatriz={setMatriz}
-          setBlackCount={setBlackCount}
-          setWhiteCount={setWhiteCount}
           whiteCount={whiteCount}
           blackCount={blackCount}
           turn={turn}
+          boardSize={boardSize}
+          baseMatriz={baseMatriz}
+          matriz={matriz}
+          setMatriz={setMatriz}
+          setWhiteCount={setWhiteCount}
+          setBlackCount={setBlackCount}
+          setTurn={setTurn}
           setEndGame={setEndGame}
         />
       </div>

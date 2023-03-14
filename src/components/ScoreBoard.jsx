@@ -1,29 +1,39 @@
+
+
 const ScoreBoard = ({
-    setTurn,
-    setMatriz,
-    setBlackCount,
-    setWhiteCount,
     whiteCount,
     blackCount,
     turn,
+    boardSize,
+    setMatriz,
+    setWhiteCount,
+    setBlackCount,
+    setTurn,
     setEndGame,
+    baseMatriz,
   }) => {
-    const resetGame = () => {
-      setMatriz([
-        [0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 1, 2, 0, 0, 0],
-        [0, 0, 0, 2, 1, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0],
-      ]);
+    const newGame = () => {
+      const initialMatriz = boardSize === 8 ? 
+      baseMatriz() : 
+      [
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 1, 2, 0, 0, 0, 0],
+        [0, 0, 0, 0, 2, 1, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      ];
+      setMatriz(initialMatriz);
+      setWhiteCount(boardSize === 8 ? 32 : 50);
+      setBlackCount(boardSize === 8 ? 32 : 50);
       setTurn(true);
       setEndGame(false);
-      setWhiteCount(30);
-      setBlackCount(30);
     };
+    
   
     return (
       <div className="h-screen flex items-center justify-center">
@@ -38,14 +48,15 @@ const ScoreBoard = ({
           <div className="flex items-center justify-center mb-4">
             <p className="text-4xl font-bold">Turn:</p>
             <div
-              className={`w-8 h-8 rounded-full border-black border-2 ml-4 ${
+              className={`w-8 h-8 rounded-full border-black border-2 ml-4 
+              ${
                 turn === true ? "bg-black" : "bg-white"
               }`}
             ></div>
           </div>
           <div className="flex justify-center">
             <button
-              onClick={resetGame}
+              onClick={newGame}
               className="relative bg-gray-500 hover:bg-gray-600 focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 text-white font-bold rounded-lg py-3 px-6 w-full overflow-hidden transform transition duration-200 hover:-translate-y-1 mx-auto"
             >
               New Game
