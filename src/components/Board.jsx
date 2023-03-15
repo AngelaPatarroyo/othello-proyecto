@@ -8,34 +8,33 @@ import TileChecker from "./TileChecker";
    true = turno negro 
 */
 
-/* 
-1=blanco
-2=negro
-0=vacio 
-*/
+
+const empty = 0;
+const black = 2;
+const white = 1;
 
 const baseMatriz = () => [
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 1, 2, 0, 0, 0],
-  [0, 0, 0, 2, 1, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
+  [empty, empty, empty, empty, empty, empty, empty, empty],
+  [empty, empty, empty, empty, empty, empty, empty, empty],
+  [empty, empty, empty, empty, empty, empty, empty, empty],
+  [empty, empty, empty, white, black, empty, empty, empty],
+  [empty, empty, empty, black, white, empty, empty, empty],
+  [empty, empty, empty, empty, empty, empty, empty, empty],
+  [empty, empty, empty, empty, empty, empty, empty, empty],
+  [empty, empty, empty, empty, empty, empty, empty, empty],
 ];
 
 const baseMatriz10x10 = () => [
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 1, 2, 0, 0, 0, 0],
-  [0, 0, 0, 0, 2, 1, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [empty, empty, empty, empty, empty, empty, empty, empty, empty, empty],
+  [empty, empty, empty, empty, empty, empty, empty, empty, empty, empty],
+  [empty, empty, empty, empty, empty, empty, empty, empty, empty, empty],
+  [empty, empty, empty, empty, empty, empty, empty, empty, empty, empty],
+  [empty, empty, empty, empty, white, black, empty, empty, empty, empty],
+  [empty, empty, empty, empty, black, white, empty, empty, empty, empty],
+  [empty, empty, empty, empty, empty, empty, empty, empty, empty, empty],
+  [empty, empty, empty, empty, empty, empty, empty, empty, empty, empty],
+  [empty, empty, empty, empty, empty, empty, empty, empty, empty, empty],
+  [empty, empty, empty, empty, empty, empty, empty, empty, empty, empty],
 ];
 
 const Board = () => {
@@ -45,6 +44,7 @@ const Board = () => {
   const [whiteCount, setWhiteCount] = useState(32);
   const [blackCount, setBlackCount] = useState(32);
   const [endGame, setEndGame] = useState(false);
+  const [allowDiagonal, setAllowDiagonal] = useState(false);
 
   const handleBoardSize = () => {
     if (boardSize === 8) {
@@ -54,6 +54,7 @@ const Board = () => {
       setMatriz(baseMatriz());
       setBoardSize(8);
     }
+    
     if (turn === false) {
       setTurn(true);
       setEndGame(false);
@@ -61,23 +62,23 @@ const Board = () => {
   };
   
   useEffect(() => {
-    const white = (boardSize === 8 ? 32 : 50) - matriz.reduce(
+    const whiteTokens = (boardSize === 8 ? 32 : 50) - matriz.reduce(
       (acc, x) => acc + x.filter((value) => value === 1).length,
       0
     );
-    const black = (boardSize === 8 ? 32 : 50) - matriz.reduce(
+    const blackTokens = (boardSize === 8 ? 32 : 50) - matriz.reduce(
       (acc, x) => acc + x.filter((value) => value === 2).length,
       0
     );
-    setWhiteCount(white);
-    setBlackCount(black);
+    setWhiteCount(whiteTokens);
+    setBlackCount(blackTokens);
 
     // verifica si algún color alcanzó 32
-    if (white <= 0 || black <= 0) {
+    if (whiteTokens <= 0 || blackTokens <= 0) {
       setEndGame(true);
       // aquí se puede detener el juego de alguna manera
       Swal.fire({
-        title: `Game Over!!! The winner is ... ${white <= 0 ? 'White' : 'Black'}`,
+        title: `Game Over!!! The winner is ... ${whiteTokens <= 0 ? 'White' : 'Black'}`,
         width: 600,
         padding: '3em',
         color: '#716add',
@@ -89,7 +90,7 @@ const Board = () => {
     no-repeat
     `
       });
-    } else if (!hasPossibleMoves(matriz, turn)) {
+    } else if (!hasPossibleMoves(matriz, turn, allowDiagonal, white, black)) {
       setEndGame(true)
       Swal.fire({
         title: `Uh-oh, no more moves for you ...The winner is ${whiteCount < blackCount ? 'White' : 'Black'}`,
@@ -105,7 +106,7 @@ const Board = () => {
     `
       });
     }
-  }, [matriz, whiteCount, blackCount, turn, boardSize]);
+  }, [matriz, whiteCount, blackCount, turn, boardSize, allowDiagonal]);
 
   return (
     <div className="flex ml-32">
@@ -122,6 +123,11 @@ const Board = () => {
                 setMatriz={setMatriz}
                 setTurn={setTurn}
                 key={colIndex}
+                allowDiagonal={allowDiagonal}
+                setAllowDiagonal={setAllowDiagonal}
+                empty={empty}
+                white={white}
+                black={black}
               />
             ))}
           </div>
@@ -142,6 +148,8 @@ const Board = () => {
           setEndGame={setEndGame}
           baseMatriz10x10={baseMatriz10x10}
           handleBoardSize={handleBoardSize}
+          setAllowDiagonal={setAllowDiagonal}
+          allowDiagonal={allowDiagonal}
         />
         
       </div>
