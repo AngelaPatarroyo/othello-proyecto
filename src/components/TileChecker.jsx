@@ -2,7 +2,7 @@ import Swal from 'sweetalert2';
 import Tile from './Tile';
 
 
-export const TileChecker = ({ x, y, endGame, matriz, setMatriz, setTurn, turn, allowDiagonal, black, white }) => {
+export const TileChecker = ({ x, y, endGame, matriz, setMatriz, setTurn, turn, allowDiagonal, black, white, boardSize }) => {
   
 
   const checkTile = () => {
@@ -63,7 +63,8 @@ export const TileChecker = ({ x, y, endGame, matriz, setMatriz, setTurn, turn, a
     
       <Tile value={matriz[x][y]} 
       onClick={checkTile}
-      white={white} />
+      white={white}
+      boardSize={boardSize} />
       
     </>
   );

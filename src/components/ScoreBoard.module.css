@@ -101,8 +101,34 @@
   }
   
   .changeBoardButton:hover, .diagonalMovesButton:hover {
-    background-color: #2563EB;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transform: translateY(-0.25rem);
+  }
+  
+  .diagonalMovesButton {
+    font-size: 1.25rem; /* Aumenta el tamaño de la fuente */
+    padding: 0.75rem 2.5rem; /* Aumenta el padding */
+  }
+  
+  .diagonalMovesButtonEnabled {
+    background-color: #34D399;
+  }
+  
+  .diagonalMovesButtonEnabled:hover {
+    background-color: #22C55E;
+  }
+  
+  .diagonalMovesButtonDisabled {
+    background-color: #F87171;
+  }
+  
+  .diagonalMovesButtonDisabled:hover {
+    background-color: #EF4444;
+  }
+
+  .impossibleText {
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
   }
   

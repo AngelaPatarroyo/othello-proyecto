@@ -70,9 +70,13 @@ const ScoreBoard = ({
         <div>
           <button
             onClick={changeDiagonalMoves}
-            className={styles.diagonalMovesButton}
+            className={`text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${
+              allowDiagonal
+                ? styles.diagonalMovesButtonEnabled
+                : styles.diagonalMovesButtonDisabled
+            }`}
           >
-            {allowDiagonal ? 'Disable Diagonal Moves' : 'Enable Diagonal Moves'}
+            {allowDiagonal ? 'Diagonal Moves Enabled' : 'Diagonal Moves Disabled'}
           </button>
         </div>
       </div>

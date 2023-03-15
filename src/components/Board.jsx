@@ -54,7 +54,7 @@ const Board = () => {
       setMatriz(baseMatriz());
       setBoardSize(8);
     }
-    
+
     if (turn === false) {
       setTurn(true);
       setEndGame(false);
@@ -128,6 +128,7 @@ const Board = () => {
                 empty={empty}
                 white={white}
                 black={black}
+                boardSize={boardSize}
               />
             ))}
           </div>
