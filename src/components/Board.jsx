@@ -108,8 +108,8 @@ const Board = () => {
   }, [matriz, whiteCount, blackCount, turn, boardSize]);
 
   return (
-    <div className="flex gap-x- my-7 ml-32">
-      <div className="mt-14">
+    <div className="flex ml-32">
+      <div className="mt-8 mb-7">
         {matriz.map((row, rowIndex) => (
           <div key={rowIndex} className="flex shadow-lg shadow-slate-700">
             {row.map((value, colIndex) => (
@@ -128,14 +128,6 @@ const Board = () => {
         ))}
       </div>
       <div className="w-max">
-        <div className="absolute top-0 right-0 mt-8 mr-24 flex justify-center items-center">
-          <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-            onClick={handleBoardSize}
-          >
-            Change the board size
-          </button>
-        </div>
         <ScoreBoard
           whiteCount={whiteCount}
           blackCount={blackCount}
@@ -149,9 +141,12 @@ const Board = () => {
           setTurn={setTurn}
           setEndGame={setEndGame}
           baseMatriz10x10={baseMatriz10x10}
+          handleBoardSize={handleBoardSize}
         />
+        
       </div>
     </div>
+    
   );
 }
 
