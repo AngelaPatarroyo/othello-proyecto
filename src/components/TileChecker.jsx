@@ -48,7 +48,7 @@ export const TileChecker = ({ x, y, endGame, turn, matriz, setMatriz, setTurn })
                 Swal.fire({
                     icon: 'warning',
                     title: 'Are you sure?',
-                    text: 'That move is not allowed!',
+                    text: 'This move is not allowed!',
                 })
                 return false;
             }

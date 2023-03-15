@@ -4,13 +4,15 @@ import Swal from 'sweetalert2'
 import { hasPossibleMoves } from "./CheckPossibleMoves";
 import TileChecker from "./TileChecker";
 
-
 /* false = turno blanco
-    true = turno negro */
+   true = turno negro 
+*/
 
-/* 1=blanco
+/* 
+1=blanco
 2=negro
-0=vacio */
+0=vacio 
+*/
 
 const baseMatriz = () => [
   [0, 0, 0, 0, 0, 0, 0, 0],
