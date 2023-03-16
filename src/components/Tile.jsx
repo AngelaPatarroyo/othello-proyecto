@@ -13,4 +13,4 @@ const Tile = ({ value, onClick, white, boardSize }) => (
   </div>
 );
 
-export default Tile
+export { Tile }
