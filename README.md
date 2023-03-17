@@ -1,3 +1,36 @@
+
+
+	## OTHELLO							
+											
+											
+											
+											
+	Rules/Requirements: 										
+											
+	1. Black player starts the Game 										
+											
+	2. If the board is 8 x 8 each payer starts with 32 tokesn each, if the board is 10 x 10 each player starts with 50 tokes each  										
+											
+	3. When you want to add a token, this can only be done if you put it in a tile that, 										
+	     a- doesn't have another value (empty) and b- that is next to a token of the opponent										
+											
+	4. You can only put a token if apart from being next to a token from the oponnent there is at least one of your tokens in the same direction										
+											
+	5. When you put a token you must put it in a way that creates a chain, this means to change the tokens that are between your tokens 										
+											
+	6. The aim of the game is to flip the highest number of tokens on the board so you have those tokens on your color										
+											
+	7. The game ends if the player who has the turn doesn't have any more possible/allowed moves in which case the tokens on the board are counted										
+	    and the one with the highest number wins the game  and the one with the highest number wins the game 										
+											
+	8. The other way the game ends is if one of the players get rid of the tokes given depending on the board size, 										
+	     so the firts player who reaches 0 or less ont he scoreboard wins the game										
+											
+
+
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
