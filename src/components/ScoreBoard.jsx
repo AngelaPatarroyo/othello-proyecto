@@ -29,6 +29,7 @@ const ScoreBoard = ({ whiteCount, blackCount, turn, boardSize, setMatriz, setWhi
     <div className={styles.container}>
       <div className={styles.scoreBoard}>
         <h1 className={styles.title}>Othello</h1>
+        <h1 className={styles.title}>by Angela</h1>
         <div className={styles.tokenWrapper}>
           <div className={`${styles.whiteToken} mr-6`}></div>
           {/* here passing the white and blackCount  */}
