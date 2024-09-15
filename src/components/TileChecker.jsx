@@ -5,8 +5,16 @@ const TileChecker = ({ x, y, endGame, matriz, setMatriz,
     setTurn, turn, allowDiagonal, black, white, boardSize, setEndGame, empty }) => {
 
     const checkTile = () => {
-        /* If the game is not over, begin with the verifications */
-        if (!endGame) { }
+        /* If the game is over, prevent further moves */
+        if (endGame) {
+            Swal.fire({
+                icon: 'info',
+                title: 'Game Over',
+                text: 'The game has already ended!',
+            });
+            return false; // Prevent further moves
+        }
+
         const value = turn ? black : white;
         const oppositeColor = turn ? white : black;
         /* Create a copy of the matrix to update it during the game */
